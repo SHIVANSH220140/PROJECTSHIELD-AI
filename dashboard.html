@@ -1,0 +1,2117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECTSHIELD AI | Project Intelligence</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 240px;
+            background: #111827;
+            color: white;
+            padding: 25px 16px;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        .logo-sub {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        .nav {
+            margin-top: 35px;
+        }
+
+        .nav button {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: #cbd5e1;
+            text-align: left;
+            padding: 12px 14px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .nav button:hover,
+        .nav button.active {
+            background: #1f2937;
+            color: white;
+        }
+
+        .dataset-info {
+            position: absolute;
+            bottom: 25px;
+            left: 18px;
+            right: 18px;
+            font-size: 12px;
+            color: #9ca3af;
+            line-height: 1.6;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 240px;
+            width: calc(100% - 240px);
+            padding: 28px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .online {
+            background: #dcfce7;
+            color: #166534;
+            padding: 9px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* SECTIONS */
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* CARDS */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .card-label {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .card-value {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .card-small {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* GRID */
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 17px;
+        }
+
+        /* TABLE */
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 11px;
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 12px 11px;
+            border-bottom: 1px solid #f0f1f3;
+            font-size: 13px;
+        }
+
+        tr:hover td {
+            background: #fafafa;
+        }
+
+        .project {
+            font-weight: bold;
+            max-width: 360px;
+        }
+
+        /* RISK */
+
+        .risk {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .high {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .low {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* PROGRESS */
+
+        .progress-bg {
+            height: 7px;
+            width: 100%;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #374151;
+        }
+
+        /* SEARCH */
+
+        .filters {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 13px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #374151;
+        }
+
+        /* BUTTON */
+
+        .btn {
+            border: 1px solid #d1d5db;
+            background: white;
+            padding: 7px 11px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .btn:hover {
+            background: #f3f4f6;
+        }
+
+        .btn-dark {
+            background: #111827;
+            color: white;
+            border-color: #111827;
+        }
+
+        /* DISTRIBUTION */
+
+        .risk-row {
+            margin-bottom: 18px;
+        }
+
+        .risk-row-top {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .bar {
+            height: 10px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .bar div {
+            height: 100%;
+        }
+
+        .bar-high {
+            background: #dc2626;
+        }
+
+        .bar-medium {
+            background: #d97706;
+        }
+
+        .bar-low {
+            background: #16a34a;
+        }
+
+        /* ALERT */
+
+        .alert {
+            border-left: 4px solid #dc2626;
+            background: #fff7f7;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+        }
+
+        .alert.medium-alert {
+            border-left-color: #d97706;
+            background: #fffbeb;
+        }
+
+        /* CHAT */
+
+        .chat-box {
+            height: 430px;
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 18px;
+            overflow-y: auto;
+        }
+
+        .message {
+            padding: 12px 15px;
+            border-radius: 9px;
+            margin-bottom: 10px;
+            max-width: 80%;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .ai-message {
+            background: white;
+            border: 1px solid #e5e7eb;
+        }
+
+        .user-message {
+            background: #111827;
+            color: white;
+            margin-left: auto;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+        }
+
+        /* MODAL */
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .modal-box {
+            background: white;
+            max-width: 1000px;
+            margin: auto;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: #111827;
+            color: white;
+            padding: 18px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header button {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: #6b7280;
+            text-transform: uppercase;
+        }
+
+        .detail-value {
+            font-weight: bold;
+            margin-top: 4px;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 1100px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width: 700px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+            }
+
+            .layout {
+                display: block;
+            }
+
+            .dataset-info {
+                position: static;
+                margin-top: 25px;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+                padding: 18px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                display: block;
+            }
+
+            .online {
+                display: inline-block;
+                margin-top: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            PROJECTSHIELD AI
+        </div>
+
+        <div class="logo-sub">
+            Project Monitoring &<br>
+            Risk Intelligence
+        </div>
+
+        <div class="nav">
+
+            <button class="active" onclick="switchSection('dashboard', this)">
+                Dashboard
+            </button>
+
+            <button onclick="switchSection('projects', this)">
+                Projects
+            </button>
+
+            <button onclick="switchSection('alerts', this)">
+                Risk Alerts
+            </button>
+
+            <button onclick="switchSection('analytics', this)">
+                Analytics
+            </button>
+
+            <button onclick="switchSection('assistant', this)">
+                AI Assistant
+            </button>
+
+        </div>
+
+        <div class="dataset-info">
+            <strong>DATASET</strong><br>
+            23,502 observations<br>
+            5,868 project keys<br>
+            16 monthly reports<br>
+            Apr 2025 – Jul 2026
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <div class="title">
+                    PROJECTSHIELD AI
+                </div>
+
+                <div class="subtitle">
+                    AI-powered infrastructure project monitoring and early warning system
+                </div>
+            </div>
+
+            <div class="online">
+                ● SYSTEM ONLINE
+            </div>
+
+        </div>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboard" class="section active">
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-label">Total Projects</div>
+                    <div class="card-value" id="totalProjects">-</div>
+                    <div class="card-small">Unique project keys</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">High Risk</div>
+                    <div class="card-value" id="highRisk">-</div>
+                    <div class="card-small">Immediate monitoring</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Medium Risk</div>
+                    <div class="card-value" id="mediumRisk">{{ medium_risk_projects }}</div>
+                    <div class="card-small">Requires observation</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Average Risk</div>
+                    <div class="card-value" id="averageRisk">-</div>
+                    <div class="card-small">AI risk score</div>
+                </div>
+
+            </div>
+
+
+            <div class="grid-2">
+
+                <div class="panel">
+
+                    <div class="panel-title">
+                        Highest Risk Projects
+                    </div>
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Project</th>
+                                    <th>State</th>
+                                    <th>Progress</th>
+                                    <th>Risk</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="riskProjects">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-title">
+                        Risk Distribution
+                    </div>
+
+                    <div class="risk-row">
+
+                        <div class="risk-row-top">
+                            <span>High Risk</span>
+                            <strong id="highPercent">0%</strong>
+                        </div>
+
+                        <div class="bar">
+                            <div id="highBar" class="bar-high" style="width:0%"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="risk-row">
+
+                        <div class="risk-row-top">
+                            <span>Medium Risk</span>
+                            <strong id="mediumPercent">0%</strong>
+                        </div>
+
+                        <div class="bar">
+                            <div id="mediumBar" class="bar-medium" style="width:0%"></div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="risk-row">
+
+                        <div class="risk-row-top">
+                            <span>Low Risk</span>
+                            <strong id="lowPercent">0%</strong>
+                        </div>
+
+                        <div class="bar">
+                            <div id="lowBar" class="bar-low" style="width:0%"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-label">Data Records</div>
+                    <div class="card-value" id="records">-</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">States</div>
+                    <div class="card-value" id="states">-</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Sectors</div>
+                    <div class="card-value" id="sectors">-</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-label">Latest Report</div>
+                    <div class="card-value" style="font-size:22px" id="latestReport">-</div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PROJECTS ================= -->
+
+        <section id="projects" class="section">
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    Project Database
+                </div>
+
+                <div class="filters">
+
+                    <input
+                        id="search"
+                        placeholder="Search project name or ID..."
+                        oninput="loadProjects()">
+
+                    <select id="riskFilter" onchange="loadProjects()">
+                        <option value="">All Risk</option>
+                        <option value="HIGH">High Risk</option>
+                        <option value="MEDIUM">Medium Risk</option>
+                        <option value="LOW">Low Risk</option>
+                    </select>
+
+                    <select id="stateFilter" onchange="loadProjects()">
+                        <option value="">All States</option>
+                    </select>
+
+                    <select id="sectorFilter" onchange="loadProjects()">
+                        <option value="">All Sectors</option>
+                    </select>
+
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Project ID</th>
+                                <th>Project</th>
+                                <th>State</th>
+                                <th>Sector</th>
+                                <th>Progress</th>
+                                <th>Risk</th>
+                                <th></th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="projectsTable">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ALERTS ================= -->
+
+        <section id="alerts" class="section">
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    AI Risk Alerts
+                </div>
+
+                <div id="alertsList">
+                    Loading alerts...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ANALYTICS ================= -->
+
+        <section id="analytics" class="section">
+
+            <div class="grid-2">
+
+                <div class="panel">
+
+                    <div class="panel-title">
+                        Risk by State
+                    </div>
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>State</th>
+                                    <th>Projects</th>
+                                    <th>Average Risk</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="stateAnalytics">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="panel-title">
+                        Risk by Sector
+                    </div>
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Sector</th>
+                                    <th>Projects</th>
+                                    <th>Average Risk</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="sectorAnalytics">
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= AI ASSISTANT ================= -->
+
+        <section id="assistant" class="section">
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    PROJECTSHIELD AI Assistant
+                </div>
+
+                <div class="subtitle" style="margin-bottom:15px;">
+                    Ask questions about project progress, risk, cost and delays.
+                </div>
+
+                <div class="chat-box" id="chat">
+
+                    <div class="message ai-message">
+
+                        <strong>PROJECTSHIELD AI</strong><br>
+
+                        Hello. I can help analyse PAIMANA project monitoring data.
+
+                    </div>
+
+                </div>
+
+                <div class="chat-input">
+
+                    <input
+                        id="chatInput"
+                        placeholder="Ask about PAIMANA projects..."
+                        onkeydown="if(event.key==='Enter') sendChat()">
+
+                    <button
+                        class="btn btn-dark"
+                        onclick="sendChat()">
+                        Send
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ================= PROJECT MODAL ================= -->
+
+<div id="projectModal" class="modal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <strong id="modalTitle">
+                Project Details
+            </strong>
+
+            <button onclick="closeModal()">×</button>
+
+        </div>
+
+        <div class="modal-body" id="modalBody">
+            Loading...
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const API = "";
+
+
+/* =========================
+   BASIC HELPERS
+========================= */
+
+function number(value) {
+
+    return Number(value || 0).toLocaleString("en-IN");
+
+}
+
+
+function riskClass(level) {
+
+    level = String(level || "LOW").toUpperCase();
+
+    if (level === "HIGH") return "risk high";
+    if (level === "MEDIUM") return "risk medium";
+
+    return "risk low";
+
+}
+
+
+function safe(value) {
+
+    if (value === null || value === undefined) {
+        return "-";
+    }
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+function switchSection(name, button) {
+
+    document.querySelectorAll(".section")
+        .forEach(section => {
+            section.classList.remove("active");
+        });
+
+    document.getElementById(name)
+        .classList.add("active");
+
+    document.querySelectorAll(".nav button")
+        .forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+    button.classList.add("active");
+
+
+    if (name === "projects") {
+        loadProjects();
+    }
+
+    if (name === "alerts") {
+        loadAlerts();
+    }
+
+    if (name === "analytics") {
+        loadAnalytics();
+    }
+
+}
+
+
+/* =========================
+   DASHBOARD SUMMARY
+========================= */
+
+async function loadSummary() {
+
+    try {
+
+        const response =
+            await fetch(API + "/api/summary");
+
+        const data =
+            await response.json();
+
+
+        document.getElementById("totalProjects").innerText =
+            number(data.total_projects ?? data.projects);
+
+        document.getElementById("highRisk").innerText =
+            number(data.high_risk);
+
+        document.getElementById("mediumRisk").innerText =
+            number(data.medium_risk);
+
+        document.getElementById("averageRisk").innerText =
+            Number(data.average_risk || 0).toFixed(1) + "%";
+
+
+        document.getElementById("records").innerText =
+            number(data.total_records ?? data.records);
+
+        document.getElementById("states").innerText =
+            number(data.states);
+
+        document.getElementById("sectors").innerText =
+            number(data.sectors);
+
+        document.getElementById("latestReport").innerText =
+            data.latest_report || "July 2026";
+
+
+        const total =
+            Number(data.total_projects ?? data.projects ?? 1);
+
+        const high =
+            Number(data.high_risk || 0);
+
+        const medium =
+            Number(data.medium_risk || 0);
+
+        const low =
+            Math.max(0, total - high - medium);
+
+
+        const hp = high / total * 100;
+        const mp = medium / total * 100;
+        const lp = low / total * 100;
+
+
+        document.getElementById("highPercent").innerText =
+            hp.toFixed(1) + "%";
+
+        document.getElementById("mediumPercent").innerText =
+            mp.toFixed(1) + "%";
+
+        document.getElementById("lowPercent").innerText =
+            lp.toFixed(1) + "%";
+
+
+        document.getElementById("highBar").style.width =
+            hp + "%";
+
+        document.getElementById("mediumBar").style.width =
+            mp + "%";
+
+        document.getElementById("lowBar").style.width =
+            lp + "%";
+
+
+        loadRiskProjects();
+
+    } catch(error) {
+
+        console.error("Summary error:", error);
+
+    }
+
+}
+
+
+/* =========================
+   HIGH RISK
+========================= */
+
+async function loadRiskProjects() {
+
+    try {
+
+        const response =
+            await fetch(
+                API + "/api/projects?risk=HIGH&limit=8"
+            );
+
+        const data =
+            await response.json();
+
+        const projects =
+            data.projects || data || [];
+
+
+        const table =
+            document.getElementById("riskProjects");
+
+        table.innerHTML = "";
+
+
+        projects.forEach(project => {
+
+            const risk =
+                Number(
+                    project.overall_risk ??
+                    project.risk_score ??
+                    project["Overall Risk"] ??
+                    0
+                );
+
+            const progress =
+                Number(
+                    project.progress ??
+                    project["Progress Numeric"] ??
+                    0
+                );
+
+            const level =
+                project.risk_level ??
+                project["Risk Level"] ??
+                "HIGH";
+
+            const key =
+                project.unique_project_key ??
+                project.project_id ??
+                project["Project ID"] ??
+                "";
+
+
+            table.innerHTML += `
+
+                <tr>
+
+                    <td class="project">
+                        ${safe(
+                            project.project_name ??
+                            project["Project Name"]
+                        )}
+                    </td>
+
+                    <td>
+                        ${safe(
+                            project.state ??
+                            project.State
+                        )}
+                    </td>
+
+                    <td>
+                        ${progress.toFixed(1)}%
+                    </td>
+
+                    <td>
+                        <span class="${riskClass(level)}">
+                            ${risk.toFixed(1)}%
+                        </span>
+                    </td>
+
+                    <td>
+                        <button
+                            class="btn"
+                            onclick="viewProject('${safeAttr(key)}')">
+                            View
+                        </button>
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+    } catch(error) {
+
+        console.error("Risk project error:", error);
+
+    }
+
+}
+
+
+/* =========================
+   PROJECTS
+========================= */
+
+async function loadProjects() {
+
+    try {
+
+        const search =
+            document.getElementById("search").value;
+
+        const risk =
+            document.getElementById("riskFilter").value;
+
+        const state =
+            document.getElementById("stateFilter").value;
+
+        const sector =
+            document.getElementById("sectorFilter").value;
+
+
+        const url =
+            API +
+            "/api/projects?limit=100" +
+            "&q=" + encodeURIComponent(search) +
+            "&risk=" + encodeURIComponent(risk) +
+            "&state=" + encodeURIComponent(state) +
+            "&sector=" + encodeURIComponent(sector);
+
+
+        const response =
+            await fetch(url);
+
+        const data =
+            await response.json();
+
+        const projects =
+            data.projects || data || [];
+
+
+        const table =
+            document.getElementById("projectsTable");
+
+        table.innerHTML = "";
+
+
+        projects.forEach(project => {
+
+            const risk =
+                Number(
+                    project.overall_risk ??
+                    project.risk_score ??
+                    0
+                );
+
+            const progress =
+                Number(
+                    project.progress ??
+                    project["Progress Numeric"] ??
+                    0
+                );
+
+            const level =
+                project.risk_level ??
+                project["Risk Level"] ??
+                "LOW";
+
+            const key =
+                project.unique_project_key ??
+                project.project_id ??
+                project["Project ID"] ??
+                "";
+
+
+            table.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        <strong>${safe(key)}</strong>
+                    </td>
+
+                    <td class="project">
+                        ${safe(
+                            project.project_name ??
+                            project["Project Name"]
+                        )}
+                    </td>
+
+                    <td>
+                        ${safe(
+                            project.state ??
+                            project.State
+                        )}
+                    </td>
+
+                    <td>
+                        ${safe(
+                            project.sector ??
+                            project.Sector
+                        )}
+                    </td>
+
+                    <td>
+                        ${progress.toFixed(1)}%
+                    </td>
+
+                    <td>
+                        <span class="${riskClass(level)}">
+                            ${level} · ${risk.toFixed(1)}%
+                        </span>
+                    </td>
+
+                    <td>
+                        <button
+                            class="btn"
+                            onclick="viewProject('${safeAttr(key)}')">
+                            Details
+                        </button>
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+    } catch(error) {
+
+        console.error("Projects error:", error);
+
+    }
+
+}
+
+
+/* =========================
+   FILTERS
+========================= */
+
+async function loadFilters() {
+
+    try {
+
+        const stateResponse =
+            await fetch(API + "/api/states");
+
+        const stateData =
+            await stateResponse.json();
+
+        const states =
+            stateData.states || stateData || [];
+
+
+        const stateSelect =
+            document.getElementById("stateFilter");
+
+
+        states.forEach(state => {
+
+            stateSelect.innerHTML +=
+                `<option value="${safeAttr(state)}">
+                    ${safe(state)}
+                </option>`;
+
+        });
+
+
+        const sectorResponse =
+            await fetch(API + "/api/sectors");
+
+        const sectorData =
+            await sectorResponse.json();
+
+        const sectors =
+            sectorData.sectors || sectorData || [];
+
+
+        const sectorSelect =
+            document.getElementById("sectorFilter");
+
+
+        sectors.forEach(sector => {
+
+            sectorSelect.innerHTML +=
+                `<option value="${safeAttr(sector)}">
+                    ${safe(sector)}
+                </option>`;
+
+        });
+
+    } catch(error) {
+
+        console.error("Filter error:", error);
+
+    }
+
+}
+
+
+/* =========================
+   PROJECT DETAILS
+========================= */
+
+async function viewProject(id) {
+
+    const modal =
+        document.getElementById("projectModal");
+
+    const body =
+        document.getElementById("modalBody");
+
+
+    modal.style.display = "block";
+
+    body.innerHTML =
+        "<p>Loading project information...</p>";
+
+
+    try {
+
+        const response =
+            await fetch(
+                API +
+                "/api/project/" +
+                encodeURIComponent(id)
+            );
+
+        const data =
+            await response.json();
+
+
+        const project =
+            data.project || data;
+
+        const history =
+            data.history || [];
+
+
+        document.getElementById("modalTitle").innerText =
+            project.project_name ??
+            project["Project Name"] ??
+            id;
+
+
+        const risk =
+            Number(
+                project.overall_risk ??
+                project.risk_score ??
+                0
+            );
+
+        const level =
+            project.risk_level ??
+            project["Risk Level"] ??
+            "LOW";
+
+
+        let historyHTML = "";
+
+
+        history.forEach(row => {
+
+            historyHTML += `
+
+                <tr>
+
+                    <td>
+                        ${safe(
+                            row.report_month ??
+                            row["Report Month"]
+                        )}
+                    </td>
+
+                    <td>
+                        ${Number(
+                            row.progress ??
+                            row["Progress Numeric"] ??
+                            0
+                        ).toFixed(1)}%
+                    </td>
+
+                    <td>
+                        ₹${Number(
+                            row.cost ??
+                            row["Cost Numeric"] ??
+                            0
+                        ).toLocaleString("en-IN")} Cr
+                    </td>
+
+                    <td>
+                        ₹${Number(
+                            row.expenditure ??
+                            row["Expenditure Numeric"] ??
+                            0
+                        ).toLocaleString("en-IN")} Cr
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+
+        body.innerHTML = `
+
+            <div class="detail-grid">
+
+                <div>
+                    <div class="detail-label">
+                        Project ID
+                    </div>
+
+                    <div class="detail-value">
+                        ${safe(
+                            project.unique_project_key ??
+                            project.project_id ??
+                            id
+                        )}
+                    </div>
+                </div>
+
+
+                <div>
+                    <div class="detail-label">
+                        State
+                    </div>
+
+                    <div class="detail-value">
+                        ${safe(
+                            project.state ??
+                            project.State
+                        )}
+                    </div>
+                </div>
+
+
+                <div>
+                    <div class="detail-label">
+                        Sector
+                    </div>
+
+                    <div class="detail-value">
+                        ${safe(
+                            project.sector ??
+                            project.Sector
+                        )}
+                    </div>
+                </div>
+
+
+                <div>
+                    <div class="detail-label">
+                        Risk
+                    </div>
+
+                    <div class="detail-value">
+                        <span class="${riskClass(level)}">
+                            ${level} · ${risk.toFixed(1)}%
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="detail-grid">
+
+                <div>
+                    <div class="detail-label">
+                        Physical Progress
+                    </div>
+
+                    <div class="detail-value">
+                        ${Number(
+                            project.progress ??
+                            project["Progress Numeric"] ??
+                            0
+                        ).toFixed(1)}%
+                    </div>
+                </div>
+
+
+                <div>
+                    <div class="detail-label">
+                        Planned Cost
+                    </div>
+
+                    <div class="detail-value">
+                        ₹${Number(
+                            project.cost ??
+                            project["Cost Numeric"] ??
+                            0
+                        ).toLocaleString("en-IN")} Cr
+                    </div>
+                </div>
+
+
+                <div>
+                    <div class="detail-label">
+                        Expenditure
+                    </div>
+
+                    <div class="detail-value">
+                        ₹${Number(
+                            project.expenditure ??
+                            project["Expenditure Numeric"] ??
+                            0
+                        ).toLocaleString("en-IN")} Cr
+                    </div>
+                </div>
+
+
+                <div>
+                    <div class="detail-label">
+                        Approval Date
+                    </div>
+
+                    <div class="detail-value">
+                        ${safe(
+                            project["Date of Approval"] ??
+                            project.approval_date
+                        )}
+                    </div>
+                </div>
+
+            </div>
+
+
+            <hr>
+
+
+            <h3>
+                Project History
+            </h3>
+
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Report Month</th>
+                            <th>Progress</th>
+                            <th>Cost</th>
+                            <th>Expenditure</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        ${
+                            historyHTML ||
+                            `<tr>
+                                <td colspan="4">
+                                    No history available
+                                </td>
+                            </tr>`
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        `;
+
+    } catch(error) {
+
+        console.error(error);
+
+        body.innerHTML = `
+            <p style="color:#dc2626;">
+                Unable to load project details.
+            </p>
+        `;
+
+    }
+
+}
+
+
+function closeModal() {
+
+    document.getElementById("projectModal")
+        .style.display = "none";
+
+}
+
+
+window.onclick = function(event) {
+
+    const modal =
+        document.getElementById("projectModal");
+
+    if (event.target === modal) {
+        closeModal();
+    }
+
+};
+
+
+/* =========================
+   ALERTS
+========================= */
+
+async function loadAlerts() {
+
+    const container =
+        document.getElementById("alertsList");
+
+
+    try {
+
+        const response =
+            await fetch(API + "/api/alerts");
+
+        const data =
+            await response.json();
+
+        const alerts =
+            data.alerts || data || [];
+
+
+        container.innerHTML = "";
+
+
+        if (!alerts.length) {
+
+            container.innerHTML = `
+                <div class="alert"
+                     style="
+                        border-left-color:#16a34a;
+                        background:#f0fdf4;
+                     ">
+                    No active risk alerts.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        alerts.forEach(alert => {
+
+            const level =
+                alert.risk_level ??
+                alert["Risk Level"] ??
+                "HIGH";
+
+            const score =
+                Number(
+                    alert.overall_risk ??
+                    alert.risk_score ??
+                    0
+                );
+
+
+            container.innerHTML += `
+
+                <div class="alert ${
+                    level === "MEDIUM"
+                    ? "medium-alert"
+                    : ""
+                }">
+
+                    <strong>
+                        ${safe(
+                            alert.project_name ??
+                            alert["Project Name"] ??
+                            alert.project_id ??
+                            "Project"
+                        )}
+                    </strong>
+
+                    <div style="margin-top:6px;font-size:13px;">
+
+                        Risk:
+                        <strong>
+                            ${score.toFixed(1)}%
+                        </strong>
+
+                        · ${safe(level)}
+
+                    </div>
+
+                    <div style="
+                        margin-top:6px;
+                        color:#6b7280;
+                        font-size:12px;
+                    ">
+
+                        ${safe(
+                            alert.message ??
+                            alert.reason ??
+                            "Project identified for monitoring by the AI risk model."
+                        )}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+    } catch(error) {
+
+        console.error("Alert error:", error);
+
+        container.innerHTML =
+            "<p>Unable to load alerts.</p>";
+
+    }
+
+}
+
+
+/* =========================
+   ANALYTICS
+========================= */
+
+async function loadAnalytics() {
+
+    try {
+
+        const stateResponse =
+            await fetch(
+                API + "/api/analytics/states"
+            );
+
+        const stateData =
+            await stateResponse.json();
+
+        const states =
+            stateData.states ||
+            stateData.data ||
+            stateData ||
+            [];
+
+
+        const stateTable =
+            document.getElementById("stateAnalytics");
+
+        stateTable.innerHTML = "";
+
+
+        states.slice(0, 30).forEach(row => {
+
+            stateTable.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${safe(
+                            row.state ??
+                            row.State
+                        )}
+                    </td>
+
+                    <td>
+                        ${number(
+                            row.projects ??
+                            row.project_count
+                        )}
+                    </td>
+
+                    <td>
+                        ${Number(
+                            row.average_risk ??
+                            row.avg_risk ??
+                            0
+                        ).toFixed(1)}%
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+
+        const sectorResponse =
+            await fetch(
+                API + "/api/analytics/sectors"
+            );
+
+        const sectorData =
+            await sectorResponse.json();
+
+        const sectors =
+            sectorData.sectors ||
+            sectorData.data ||
+            sectorData ||
+            [];
+
+
+        const sectorTable =
+            document.getElementById("sectorAnalytics");
+
+        sectorTable.innerHTML = "";
+
+
+        sectors.forEach(row => {
+
+            sectorTable.innerHTML += `
+
+                <tr>
+
+                    <td>
+                        ${safe(
+                            row.sector ??
+                            row.Sector
+                        )}
+                    </td>
+
+                    <td>
+                        ${number(
+                            row.projects ??
+                            row.project_count
+                        )}
+                    </td>
+
+                    <td>
+                        ${Number(
+                            row.average_risk ??
+                            row.avg_risk ??
+                            0
+                        ).toFixed(1)}%
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+    } catch(error) {
+
+        console.error("Analytics error:", error);
+
+    }
+
+}
+
+
+/* =========================
+   CHAT
+========================= */
+
+async function sendChat() {
+
+    const input =
+        document.getElementById("chatInput");
+
+    const message =
+        input.value.trim();
+
+
+    if (!message) return;
+
+
+    const chat =
+        document.getElementById("chat");
+
+
+    chat.innerHTML += `
+
+        <div class="message user-message">
+            ${safe(message)}
+        </div>
+
+    `;
+
+
+    input.value = "";
+
+
+    const loading =
+        document.createElement("div");
+
+    loading.className =
+        "message ai-message";
+
+    loading.innerHTML =
+        "<strong>PROJECTSHIELD AI</strong><br>Analysing...";
+
+    chat.appendChild(loading);
+
+
+    try {
+
+        const response =
+            await fetch(
+                API + "/api/chat",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: message
+                    })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        loading.innerHTML = `
+
+            <strong>PROJECTSHIELD AI</strong><br>
+
+            ${safe(
+                data.response ??
+                data.answer ??
+                "AI response unavailable."
+            )}
+
+        `;
+
+    } catch(error) {
+
+        loading.innerHTML = `
+
+            <strong>PROJECTSHIELD AI</strong><br>
+
+            <span style="color:#dc2626;">
+                AI Assistant is not connected yet.
+            </span>
+
+        `;
+
+    }
+
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+}
+
+
+/* =========================
+   ATTRIBUTE ESCAPE
+========================= */
+
+function safeAttr(value) {
+
+    return String(value ?? "")
+        .replaceAll("\\", "\\\\")
+        .replaceAll("'", "\\'");
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        loadSummary();
+
+        loadFilters();
+
+    }
+);
+
+</script>
+
+</body>
+</html>
